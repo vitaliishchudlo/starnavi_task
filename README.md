@@ -37,7 +37,7 @@ non-specified requirements (including chosen tech, third party apps, etc), howev
 
 
 ##Running locally
-Clone the repository to your local machine. With virtualenv enviroment activated install requirements:
+Clone the repository to your local machine and **go to the master branch**. With virtualenv enviroment activated install requirements:
 ```
 $ pip3 install -r requirements.txt
 ```
