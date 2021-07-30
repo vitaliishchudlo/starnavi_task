@@ -1,6 +1,7 @@
+# Starnavi test task.
+
 ## Task
 ### Social Network
-
 Object of this task is to create a simple REST API. You can use one framework from this list
 (Django Rest Framework, Flask or FastAPI) and all libraries which you are prefer to use with
 this frameworks.
@@ -65,4 +66,3 @@ $ python3 manage.py runserver
 
 ##### PUT:
 > http://127.0.0.1:8000/api/publications/<ID>/like/ - like publication (*need to be authorized*)
->>>>>>> 4f5833cc34674dc73ed2963e1fe29be79fe4d2e0
