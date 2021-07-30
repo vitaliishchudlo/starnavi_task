@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from .models import User
 from .serializers import UserSerializer
+from .utils import update_last_request
 
 
 class UserView(viewsets.ModelViewSet):
@@ -14,20 +15,24 @@ class UserView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        update_last_request(self.request.user)
         return User.objects.all()
 
     @action(methods=['POST'], detail=False, permission_classes=[])
     def register(self, request, *args, **kwargs):
-
-        login = request.data.get('username')
+        username = request.data.get('username')
         password = request.data.get('password')
         re_password = request.data.get('re_password')
-        if not login or not password or not re_password:
-            return Response("eeroro", status=status.HTTP_403_FORBIDDEN)
+        if not username or not password or not re_password:
+            return Response(
+                [{'username': 'This field is required.',
+                  'password': 'This field is required.',
+                  're_password': 'This field is required.'}],
+                status=status.HTTP_403_FORBIDDEN)
         if password != re_password:
-            return Response("Password not same", status=status.HTTP_403_FORBIDDEN)
+            return Response("Passwords do not match.", status=status.HTTP_403_FORBIDDEN)
         user = User.objects.create(
-            username=login,
+            username=username,
             last_login=datetime.datetime.now(),
             last_request=datetime.datetime.now()
         )
@@ -35,5 +40,3 @@ class UserView(viewsets.ModelViewSet):
         user.save()
         serializer = self.serializer_class(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
